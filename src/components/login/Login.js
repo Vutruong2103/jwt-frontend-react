@@ -1,12 +1,48 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Login.scss';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { toast } from 'react-toastify';
+import { loginUser } from '../../services/userService';
+
 
 
 const Login = (props) => {
     let history = useHistory();
+
+    const [valueLogin, setValueLogin] = useState("");
+    const [password, setPassword] = useState("");
+
+    const defaultObjValidInput = {
+        isValidValueLogin: true,
+        isValidPassword: true
+    }
+    const [objValidInput, setObjValidInput] = useState(defaultObjValidInput);
+
     const handleCreateNewAccount = () =>{
         history.push('/register')
+    }
+    const handleLogin = async ()=>{
+        setObjValidInput(defaultObjValidInput)
+        if(!valueLogin){
+            setObjValidInput({...defaultObjValidInput, isValidValueLogin: false});
+            toast.error("please enter your email address or phone number");
+            return;//return mà kh có giá trị thì nv chỉ để thoát ra khỏi hàm này không chạy xuống dưới nữa
+        }
+        if(!password){
+            setObjValidInput({...defaultObjValidInput, isValidPassword: false});
+            toast.error("please enter your password");
+            return;
+        } 
+        let reponse = await loginUser(valueLogin, password);
+
+        if(reponse && reponse.data && +reponse.data.EC === 0){
+            //success
+            history.push("/users")
+        }
+        if(reponse && reponse.data && +reponse.data.EC !== 0){
+            //error
+            toast.error(reponse.data.EM)
+        }
     }
     return (
         <div className='login-contaniner'>
@@ -24,9 +60,9 @@ const Login = (props) => {
                         <div className='brand d-sm-none'>
                             Facebook
                         </div>
-                        <input type='text' className='form-control' placeholder='Email address or phone number' />
-                        <input type='password' className='form-control' placeholder='Password' />
-                        <button className='btn btn-primary'>Login</button>
+                        <input type='text' className={objValidInput.isValidValueLogin ? 'form-control' : 'is-invalid form-control' } placeholder='Email address or phone number' value={valueLogin} onChange={(e)=>{setValueLogin(e.target.value)}}/>
+                        <input type='password' className={objValidInput.isValidPassword ? 'form-control' : 'is-invalid form-control' } placeholder='Password' value={password} onChange={(e)=>{setPassword(e.target.value)}}/>
+                        <button className='btn btn-primary' onClick={()=>{handleLogin()}}>Login</button>
                         <span className='text-center'> <a className='forgot-pass' href='#'>Forgot your password?</a></span>
                         <hr />
                         <div className='text-center'>
