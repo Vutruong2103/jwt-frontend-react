@@ -1,27 +1,26 @@
-.login-contaniner {
+.login-container {
   background-color: #f0f2f5;
   min-height: 100vh;
   padding-top: 20px;
-  .content-left{
+  .content-left {
     margin-top: 50px;
-    .brand{
-        text-transform: uppercase;//in hoa
-        font-size: 30px;
-        color: #1877f2;
-        font-weight: 1000;
+    .brand {
+      text-transform: uppercase; //in hoa
+      font-size: 30px;
+      color: #1877f2;
+      font-weight: 1000;
     }
-    .detail{
-        font-size: 20px;
-
+    .detail {
+      font-size: 20px;
     }
   }
   .content-right {
-    .brand{
-        text-transform: uppercase;//in hoa
-        font-size: 20px;
-        color: #1877f2;
-        text-align: center;
-        font-weight: 1000;
+    .brand {
+      text-transform: uppercase; //in hoa
+      font-size: 20px;
+      color: #1877f2;
+      text-align: center;
+      font-weight: 1000;
     }
     border-radius: 10px;
     background-color: #fff;
