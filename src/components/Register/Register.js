@@ -63,8 +63,8 @@ const Register = (props) => {
     const handleRegister = async () => {
         let check = isValidInputs();//all du lieu ok check = true, nguoc lai false
         if (check === true) {
-            let response = await registerNewUser(email, phone, username, password);//truyen len server
-            let serverData = response.data;//data la cuc data tra ra nhung phan hồi loi phia server
+            let serverData = await registerNewUser(email, phone, username, password);//truyen len server
+            // let serverData = response.data;//data la cuc data tra ra nhung phan hồi loi phia server
             if (+serverData.EC === 0){
                 toast.success(serverData.EM);
                 history.push('/login');
